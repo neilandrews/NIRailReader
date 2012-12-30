@@ -136,7 +136,7 @@ for feed in feedList:
 		parity += 1
 
 
-print len(ttGridList)
+#print len(ttGridList)
 
 
 
