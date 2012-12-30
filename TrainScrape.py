@@ -1,35 +1,14 @@
-###########################################################################################################################
+################################################################################################
 #
 #
 #	- url's for train timetables located on the Translink/NI Railways website.
 #	- each page may have three tabs (Mon-Fri, Sat, Sun, plus multiple (7+) tables on each tab)
-#
-#	-- Newry-Belfast / Belfast-Newry
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-1-Inbound/
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-1-Outbound/
-#
-#	-- Belfast-Bangor / Bangor-Belfast
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-1-Inbound1/
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-1-Outbound1/
-#
-#	-- Larne-Belfast / Belfast-Larne
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-2-Outbound/
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-2-Inbound/
-#
-#	-- Londonderry-Belfast / Belfast-Londonderry
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-3-Inbound/
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-3-Outbound/
-#
-#	-- Portrush-Coleraine / Coleraine-Portrush
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-4-Inbound/
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-4-Outbound/
-#
-#	-- Dublin-Belfast / Belfast-Dublin
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Enterprise-Service-5-Inbound/
-#	http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Enterprise-Service-5-Outbound/
+#	- urls are specified at the start of the program.
 #
 #	--Example of proposed xml markup
-#	--A timetable has multiple routes, which have three types of services (weekday, sat & sun), each service has multiple calling poits
+#	--A timetable has multiple routes, which have three types of services (weekday, sat & sun), 
+#	--each service has multiple calling points
+
 #	<timetable>
 #		<route line='Newry-Portadown-Lisburn-Belfast'>
 #			<weekdayService>
@@ -81,6 +60,7 @@
 
 
 from BeautifulSoup import BeautifulSoup
+import xml.etree.cElementTree as ET
 import urllib2
 import math
 
@@ -117,26 +97,67 @@ feedList.append(DataFeedItem("Belfast, (NIR) Central Rail Station - Dublin, (IE)
 
 ttGridList = []
 
+xml_timetable = ET.Element('Timetable')
+
 for feed in feedList:
 
-	print feed.routeDescription
+	xml_route = ET.SubElement(xml_timetable, 'Route')
+	xml_route.attrib["line"] = feed.routeDescription
+
 	soup = BeautifulSoup(urllib2.urlopen(feed.url).read())
 
 	#get each tt on the page
 	ttList = (soup.findAll(summary="layout table"))
 
 	#note:  ttlist contains data that is not a timetable - notably the smaller textual table that appears abover each actual tt.
-	# so we only want to add every other item in ttList to our 'ttGridList'
-	parity = 0
+	# so we only want to add every other item in ttList to our 'ttGridList
+	readThis = False
+	currentServiceDay = ''
 	for tt in ttList:
+ 		
+		if readThis:
 
-		# i.e. the current index is odd (so we want this data!)
-		if parity % 2 != 0: 
-			ttGridList.append(tt)
-		parity += 1
+			## We needs to find out what day/s this service runs on.
+			dayRow = tt.findAll('tr')[3].findAll('td')[0].text
+			##end
 
+			## different tag depending on day
+			if (dayRow != currentServiceDay):
+				if (dayRow == '&nbsp;M-F&nbsp;') :
+					xml_day = ET.SubElement(xml_route, 'WeekDayServices')
+					currentServiceDay = '&nbsp;M-F&nbsp;'
+				elif (dayRow == '&nbsp;S&nbsp;') :
+					xml_day = ET.SubElement(xml_route, 'SaturdayServices')
+					currentServiceDay = '&nbsp;S&nbsp;'
+				elif (dayRow == '&nbsp;Su&nbsp;'):
+					xml_day = ET.SubElement(xml_route, 'SundayServices')
+					currentServiceDay = '&nbsp;Su&nbsp;'
+			##end
 
-#print len(ttGridList)
+			timetableRows = tt.findAll('tr')
+			for row in timetableRows[5:len(timetableRows)-1]:
+
+				stopName = row.contents[0].text
+				xml_service = ET.SubElement(xml_day, 'CallingPoint')
+				xml_service.attrib["nme"] = stopName
+
+				times = row.findAll('td')
+
+				for time in times:
+
+					thisTime = time.text
+					xml_stopTime = ET.SubElement(xml_service, 'Time')
+					xml_stopTime.attrib["StopTime"] = thisTime
+
+		   	readThis = False
+		else:
+		   	readThis = True
+
+					
+print '....finished!'
+
+tree = ET.ElementTree(xml_timetable)
+tree.write("Trains.xml")
 
 
 
