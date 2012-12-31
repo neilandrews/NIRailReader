@@ -158,9 +158,3 @@ print '....finished!'
 
 tree = ET.ElementTree(xml_timetable)
 tree.write("Trains.xml")
-
-
-
-
-
-
