@@ -9,7 +9,7 @@
 #	--A timetable has multiple routes, which have three types of services (weekday, sat & sun), 
 #	--each service has multiple calling points
 #		
-###########################################################################################################################
+################################################################################################
 
 
 from BeautifulSoup import BeautifulSoup
