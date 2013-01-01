@@ -5,56 +5,9 @@
 #	- each page may have three tabs (Mon-Fri, Sat, Sun, plus multiple (7+) tables on each tab)
 #	- urls are specified at the start of the program.
 #
-#	--Example of proposed xml markup
+#	--proposed xml markup
 #	--A timetable has multiple routes, which have three types of services (weekday, sat & sun), 
 #	--each service has multiple calling points
-
-#	<timetable>
-#		<route line='Newry-Portadown-Lisburn-Belfast'>
-#			<weekdayService>
-#				<service>
-#					<callingPoint Station='Portadown, (NIR) Rail Station' Time='0545'></callingPoint>
-#					<callingPoint Station='Lurgan, (NIR) Rail Station' Time='0551'></callingPoint>
-#					<callingPoint Station='Moira, (NIR) Rail Station' Time='0557'></callingPoint>
-#					<callingPoint Station='Lisburn, (NIR) Rail Station' Time='0610'></callingPoint>
-#				</service>
-#				<service>
-#					<callingPoint Station='Portadown, (NIR) Rail Station' Time='0625'></callingPoint>
-#					<callingPoint Station='Lurgan, (NIR) Rail Station' Time='0631'></callingPoint>
-#					<callingPoint Station='Moira, (NIR) Rail Station' Time='0637'></callingPoint>
-#					<callingPoint Station='Lisburn, (NIR) Rail Station' Time='0650'></callingPoint>
-#				</service>
-#			</weekDayService>
-#			<satService>
-#				<service>
-#					<callingPoint Station='Portadown, (NIR) Rail Station' Time='0545'></callingPoint>
-#					<callingPoint Station='Lurgan, (NIR) Rail Station' Time='0551'></callingPoint>
-#					<callingPoint Station='Moira, (NIR) Rail Station' Time='0557'></callingPoint>
-#					<callingPoint Station='Lisburn, (NIR) Rail Station' Time='0610'></callingPoint>
-#				</service>
-#				<service>
-#					<callingPoint Station='Portadown, (NIR) Rail Station' Time='0625'></callingPoint>
-#					<callingPoint Station='Lurgan, (NIR) Rail Station' Time='0631'></callingPoint>
-#					<callingPoint Station='Moira, (NIR) Rail Station' Time='0637'></callingPoint>
-#					<callingPoint Station='Lisburn, (NIR) Rail Station' Time='0650'></callingPoint>
-#				</service>
-#			</satService>
-#			<sunService>
-#				<service>
-#					<callingPoint Station='Portadown, (NIR) Rail Station' Time='0545'></callingPoint>
-#					<callingPoint Station='Lurgan, (NIR) Rail Station' Time='0551'></callingPoint>
-#					<callingPoint Station='Moira, (NIR) Rail Station' Time='0557'></callingPoint>
-#					<callingPoint Station='Lisburn, (NIR) Rail Station' Time='0610'></callingPoint>
-#				</service>
-#				<service>
-#					<callingPoint Station='Portadown, (NIR) Rail Station' Time='0625'></callingPoint>
-#					<callingPoint Station='Lurgan, (NIR) Rail Station' Time='0631'></callingPoint>
-#					<callingPoint Station='Moira, (NIR) Rail Station' Time='0637'></callingPoint>
-#					<callingPoint Station='Lisburn, (NIR) Rail Station' Time='0650'></callingPoint>
-#				</service>
-#			</sunService>
-#		</route>
-#	</timetable
 #		
 ###########################################################################################################################
 
