@@ -1,0 +1,35 @@
+Newry, (NIR) Rail Station - Belfast, (NIR) Central Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-1-Inbound/
+
+Belfast, (NIR) Central Rail Station - Newry, (NIR) Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-1-Outbound/
+
+Belfast, (NIR) Gt Victoria St (GVS) - Bangor, (NIR) Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-1-Inbound1/
+
+Bangor, (NIR) Rail Station - Belfast, (NIR) Gt Victoria St (GVS)
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-1-Outbound1/
+
+Larne Harbour, (NIR) Rail Station - Belfast, (NIR) Gt Victoria St (GVS)
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-2-Outbound/
+
+Belfast, (NIR) Gt Victoria St (GVS) - Larne Harbour, (NIR) Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-2-Inbound/
+
+Portrush, (NIR) Rail Station - Belfast, (NIR) Gt Victoria St (GVS)
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-3-Inbound/
+
+Belfast, (NIR) Gt Victoria St (GVS) - Portrush, (NIR) Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-3-Outbound/
+
+Portrush, (NIR) Rail Station - Coleraine, (NIR) Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-4-Inbound/
+
+Coleraine, (NIR) Rail Station - Portrush, (NIR) Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Northern-Ireland-Railways-Service-4-Outbound/
+
+Dublin, (IE) Connolly Rail Station - Belfast, (NIR) Central Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Enterprise-Service-5-Inbound/
+
+Belfast, (NIR) Central Rail Station - Dublin, (IE) Connolly Rail Station
+http://www.translink.co.uk/Services/NI-Railways/Routes--Timetables/All-Timetables/Enterprise-Service-5-Outbound/
