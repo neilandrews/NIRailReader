@@ -1,6 +1,6 @@
 ################################################################################################
 #
-#	TODO // Description // Overview
+#	NI Rail Reader - Web Scraper for NI Rail timetables
 #		
 ################################################################################################
 
@@ -19,78 +19,97 @@ class DataFeedItem(object):
 # generate feed list (from txt file) 
 def GenerateFeedList():
 	urlFeeds = []
-
 	with open('TimetableUrls.txt') as f:
 		lines = f.read().splitlines()
-
 	for i in range(len(lines)):
 		if (i % 3 == 0):
 			urlFeeds.append(DataFeedItem(lines[i], lines[i+1]))
+
+	return urlFeeds
 
 
 # start parsing the feeds
 def StartParse():
 
-	ttGridList = []
+	feedList = GenerateFeedList()
 
+	ttGridList = []
 	xml_timetable = ET.Element('Timetable')
 
+	# for each web page / timetable
 	for feed in feedList:
+
+		print 'processing feed: ' + feed.routeDescription
 
 		xml_route = ET.SubElement(xml_timetable, 'Route')
 		xml_route.attrib["line"] = feed.routeDescription
 
 		soup = BeautifulSoup(urllib2.urlopen(feed.url).read())
 
-		#get each tt on the page
+		# get each tt on the page
 		ttList = (soup.findAll(summary="layout table"))
 
-		#note:  ttlist contains data that is not a timetable - notably the smaller textual table that appears abover each actual tt.
-		# so we only want to add every other item in ttList to our 'ttGridList
-		readThis = False
+		# note:  ttlist contains items that are not a timetable - notably the smaller textual table that appears above each actual tt.
+		# So we only want to add every other item in ttList to our 'ttGridList'
+		ignoreThis = True
 		currentServiceDay = ''
 		for tt in ttList:
 	 		
-			if readThis:
-
-				## We needs to find out what day/s this service runs on.
-				dayRow = tt.findAll('tr')[3].findAll('td')[0].text
-				##end
-
-				## different tag depending on day
-				if (dayRow != currentServiceDay):
-					if (dayRow == '&nbsp;M-F&nbsp;') :
-						xml_day = ET.SubElement(xml_route, 'WeekDayServices')
-						currentServiceDay = '&nbsp;M-F&nbsp;'
-					elif (dayRow == '&nbsp;S&nbsp;') :
-						xml_day = ET.SubElement(xml_route, 'SaturdayServices')
-						currentServiceDay = '&nbsp;S&nbsp;'
-					elif (dayRow == '&nbsp;Su&nbsp;'):
-						xml_day = ET.SubElement(xml_route, 'SundayServices')
-						currentServiceDay = '&nbsp;Su&nbsp;'
-				##end
-
-				timetableRows = tt.findAll('tr')
-				for row in timetableRows[5:len(timetableRows)-1]:
-
-					stopName = row.contents[0].text
-					xml_service = ET.SubElement(xml_day, 'CallingPoint')
-					xml_service.attrib["nme"] = stopName
-
-					times = row.findAll('td')
-
-					for time in times:
-
-						thisTime = time.text
-						xml_stopTime = ET.SubElement(xml_service, 'Time')
-						xml_stopTime.attrib["StopTime"] = thisTime
-
-			   	readThis = False
+	 		# ignore every other table - i.e the title tables
+			if ignoreThis:
+				ignoreThis = False
+				continue
 			else:
-			   	readThis = True
+				ignoreThis = True
 
-						
-	print '....finished!'
 
+			# We needs to find out what day/s this service runs on. e.g. 'M-F'
+			dayRow = tt.findAll('tr')[3].findAll('td')[0].text
+
+			# Different tag depending on day of service
+			if (dayRow != currentServiceDay):
+				if (dayRow == '&nbsp;M-F&nbsp;') :
+					xml_day = ET.SubElement(xml_route, 'WeekDayServices')
+					currentServiceDay = '&nbsp;M-F&nbsp;'
+				elif (dayRow == '&nbsp;S&nbsp;') :
+					xml_day = ET.SubElement(xml_route, 'SaturdayServices')
+					currentServiceDay = '&nbsp;S&nbsp;'
+				elif (dayRow == '&nbsp;Su&nbsp;'):
+					xml_day = ET.SubElement(xml_route, 'SundayServices')
+					currentServiceDay = '&nbsp;Su&nbsp;'
+
+			timetableRows = tt.findAll('tr')
+
+			# number of rows & tables we need to iterate through
+			tdCount = len(tt.findAll('tr')[3].findAll('td'))
+			trCount = len(timetableRows)
+
+			for n in xrange(0, tdCount-1):
+
+				# new service
+				xml_service = ET.SubElement(xml_day, 'Service')
+
+				for m in xrange(5, trCount):
+					
+					# station name
+					stationName = tt.findAll('tr')[m].findAll('th')[0].text
+
+					# stop time
+					stopTime = tt.findAll('tr')[m].findAll('td')[n].text
+					if (stopTime == '&nbsp;...&nbsp;'):
+						stopTime = ""
+					else:
+						stopTime = stopTime[6:10]
+
+					# location and time of each stop
+					xml_stop = ET.SubElement(xml_service, 'Stop')
+					xml_stop.attrib["Station"] = stationName
+					xml_stop.attrib["Time"] = stopTime
+
+
+	# print '....finished!'
 	tree = ET.ElementTree(xml_timetable)
 	tree.write("Trains.xml")
+
+
+StartParse()
