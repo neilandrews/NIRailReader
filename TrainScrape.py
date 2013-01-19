@@ -24,15 +24,12 @@ def GenerateFeedList():
 	for i in range(len(lines)):
 		if (i % 3 == 0):
 			urlFeeds.append(DataFeedItem(lines[i], lines[i+1]))
-
 	return urlFeeds
 
 
 # start parsing the feeds
 def StartParse():
-
 	feedList = GenerateFeedList()
-
 	ttGridList = []
 	xml_timetable = ET.Element('Timetable')
 
@@ -105,4 +102,5 @@ def StartParse():
 	tree = ET.ElementTree(xml_timetable)
 	tree.write("Trains.xml")
 
+#run program
 StartParse()
