@@ -54,14 +54,12 @@ def StartParse():
 		ignoreThis = True
 		currentServiceDay = ''
 		for tt in ttList:
-	 		
 	 		# ignore every other table - i.e the title tables
 			if ignoreThis:
 				ignoreThis = False
 				continue
 			else:
 				ignoreThis = True
-
 
 			# We needs to find out what day/s this service runs on. e.g. 'M-F'
 			dayRow = tt.findAll('tr')[3].findAll('td')[0].text
@@ -85,12 +83,10 @@ def StartParse():
 			trCount = len(timetableRows)
 
 			for n in xrange(0, tdCount-1):
-
 				# new service
 				xml_service = ET.SubElement(xml_day, 'Service')
 
 				for m in xrange(5, trCount):
-					
 					# station name
 					stationName = tt.findAll('tr')[m].findAll('th')[0].text
 
@@ -106,10 +102,7 @@ def StartParse():
 					xml_stop.attrib["Station"] = stationName
 					xml_stop.attrib["Time"] = stopTime
 
-
-	# print '....finished!'
 	tree = ET.ElementTree(xml_timetable)
 	tree.write("Trains.xml")
-
 
 StartParse()
