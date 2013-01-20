@@ -1,4 +1,4 @@
-# Overview
+## Overview
 NIRail Reader tool that scrapes train timetable data from the timetables provided on the translink website (http://www.translink.co.uk/).
 
 Currently this data is output into a single xml document, further development may include a JSON output.
