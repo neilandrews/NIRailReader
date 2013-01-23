@@ -10,6 +10,8 @@ NIRail Reader is a python script, so just run ```python TrainScrape.py``` from t
 
 Timetable names and web addresses are stored in an external text file ```TimetableURLs.txt```.  This can be updated as and when url's change or new timetables are introduced.
 
+It should also be noted that I am using the Beautiful Soup library to simplify some of the parsing, you may need to install it (http://pypi.python.org/pypi/BeautifulSoup).
+
 ##Legal
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
